@@ -282,11 +282,36 @@ function hitungDataKelompok() {
 
   const modus = L + ((d1 / (d1 + d2)) * p);
 
+  // Median
+  const N = frek.reduce((a, b) => a + b, 0);
+  const N2 = frek / 2;
+  let fk = 0;
+  let medianIndex = 0;
+
+  for(let i = 0; i < frek.length; i++){
+    fk+= frek[i];
+
+    if(fk >= N2) {
+      medianIndex = i;
+      break;
+    }
+  }
+
+  const [tbm, tam] = kelas[medianIndex].split('-').map(Number);
+  const Lm = tbm - 0.5;
+  const pm = tam - tbm + 1;
+  const Fmedian = frek[medianIndex];
+  const F = fk - Fmedian;
+
+  const median = Lm + (((N2 - F) / Fmedian) * pm);
+
   hasil_div.innerHTML = `
     <h3>Hasil Statistik Data Kelompok</h3>
     <table>
       <tr><th>Kelas Modus</th><td>${kelas[idx]}</td></tr>
       <tr><th>Modus</th><td>${modus.toFixed(2)}</td></tr>
+      <tr><th>Kelas Median</th><td>${kelas[medianIndex]}</td></tr>
+      <tr><th>Median</th><td>${median.toFixed(2)}</td></tr>
     </table>
   `;
 }
